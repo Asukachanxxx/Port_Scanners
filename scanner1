@@ -1,0 +1,22 @@
+import socket
+
+def port_scanner(host, ports):
+    print(f"Scanning {host} on ports {ports}")
+    for port in ports:
+        try:
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            socket.setdefaulttimeout(1)
+            result = sock.connect_ex((host, port))
+            if result == 0:
+                print(f"Port {port}: Open")
+            else:
+                print(f"Port {port}: Closed")
+        except socket.error as err:
+            print(f"Error scanning port {port}: {err}")
+        finally:
+            sock.close()
+
+if __name__ == "__main__":
+    target_host = "scanme.nmap.org"
+    ports_to_scan = [80, 443, 22, 21]
+    port_scanner(target_host, ports_to_scan)

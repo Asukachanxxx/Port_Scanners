@@ -1,0 +1,23 @@
+import socket
+
+def port_scanner(host, start_port, end_port):
+    print(f"Scanning {host} from port {start_port} to {end_port}")
+    for port in range(start_port, end_port + 1):
+        try:
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            socket.setdefaulttimeout(1)
+            result = sock.connect_ex((host, port))
+            if result == 0:
+                print(f"Port {port}: Open")
+            else:
+                print(f"Port {port}: Closed")
+        except socket.error as err:
+            print(f"Error scanning port {port}: {err}")
+        finally:
+            sock.close()
+
+if __name__ == "__main__":
+    target_host = "localhost"
+    start_port = 1
+    end_port = 1024
+    port_scanner(target_host, start_port, end_port)
